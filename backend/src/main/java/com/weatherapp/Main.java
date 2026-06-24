@@ -16,14 +16,18 @@ public class Main {
 
         WeatherService weatherService = new WeatherService();
 
+        app.get("/", ctx -> ctx.result("Weather API is running"));
+
         app.get("/weather", ctx -> {
 
             String city = ctx.queryParam("city");
 
-            if (city == null || city.isEmpty()) {
+            if (city == null || city.trim().isEmpty()) {
                 ctx.status(400).result("{\"error\": \"City parameter is required\"}");
                 return;
             }
+
+            city = city.trim();
 
             try {
                 WeatherResponse weatherData = weatherService.getWeather(city);

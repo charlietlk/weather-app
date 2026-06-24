@@ -6,16 +6,19 @@ import stormBg from "../assets/thunderstorm.jpg";
 import snowBg from "../assets/snow.png";
 import mistBg from "../assets/fog.jpg";
 
-export const getBackgroundImage = (icon: string) => {
-  if (icon.startsWith("01")) return clearBg;
-  if (icon.startsWith("02") || icon.startsWith("03") || icon.startsWith("04")) {
-    return cloudsBg;
-  }
-  if (icon.startsWith("09") || icon.startsWith("10")) {
-    return rainBg;
-  }
-  if (icon.startsWith("11")) return stormBg;
-  if (icon.startsWith("13")) return snowBg;
-  if (icon.startsWith("50")) return mistBg;
-  return defaultBg;
+const backgroundStrategies: Record<string, string> = {
+  "01": clearBg,
+  "02": cloudsBg,
+  "03": cloudsBg,
+  "04": cloudsBg,
+  "09": rainBg,
+  "10": rainBg,
+  "11": stormBg,
+  "13": snowBg,
+  "50": mistBg,
 };
+
+export function getBackgroundImage(icon: string): string {
+  const code = icon.slice(0, 2);
+  return backgroundStrategies[code] ?? defaultBg;
+}
